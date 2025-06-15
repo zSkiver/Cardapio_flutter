@@ -1,0 +1,35 @@
+name: cardapio_digital
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+  - assets/images/x-burguer.png
+  - assets/images/pizza_calabresa.png
+  - assets/images/x-bacon.png
+  - assets/images/pizza_margherita.png
+  - assets/images/batata_frita.png
+  - assets/images/suco_laranja.png
+  - assets/images/refrigerante_coca-cola.png
+  - assets/images/milkshake_chocolate.png
+  - assets/images/salada_caesar.png
+  - assets/images/hotdog.png
+  - assets/images/pizza_frango_catupiry.png
+  - assets/images/brownie_sorvete.png
