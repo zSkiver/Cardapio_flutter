@@ -28,17 +28,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('🍔 Cardápio Digital'),
+        backgroundColor: Colors.deepOrange,
+        title: const Text('🍔 Cardápio Digital', style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           IconButton(
             tooltip: 'Carrinho',
-            icon: const Icon(Icons.shopping_cart),
+            icon: const Icon(Icons.shopping_cart_outlined),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const CheckoutScreen()),
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const CheckoutScreen()));
+        },
+        backgroundColor: Colors.deepOrange,
+        icon: const Icon(Icons.shopping_cart_outlined),
+        label: const Text("Ver Carrinho"),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               children: [
                 ChoiceChip(
-                  label: const Text('Todos'),
+                  label: const Text('Todos', style: TextStyle(fontWeight: FontWeight.w500)),
+                  selectedColor: Colors.deepOrange,
+                  backgroundColor: Colors.grey.shade200,
+                  elevation: 2,
                   selected: categoriaSelecionada == null,
                   onSelected: (_) => setState(() => categoriaSelecionada = null),
                 ),
@@ -59,7 +71,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: ChoiceChip(
-                      label: Text(cat),
+                      label: Text(cat, style: const TextStyle(fontWeight: FontWeight.w500)),
+                      selectedColor: Colors.deepOrange,
+                      backgroundColor: Colors.grey.shade200,
+                      elevation: 2,
                       selected: categoriaSelecionada == cat,
                       onSelected: (_) => setState(() => categoriaSelecionada = cat),
                     ),
@@ -78,12 +93,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 final produto = produtosFiltrados[index];
 
                 return Card(
-                  elevation: 4,
+                  elevation: 2,
+                  shadowColor: Colors.deepOrange.withOpacity(0.3),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   child: InkWell(
+                    splashColor: Colors.deepOrange.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(16),
                     onTap: () {
                       Navigator.push(
@@ -119,7 +136,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 produto.nome,
                                 style: const TextStyle(
                                   fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black87,
                                 ),
                               ),
                               const SizedBox(height: 6),
@@ -135,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.green,
+                                  color: Colors.deepOrange,
                                 ),
                               ),
                             ],

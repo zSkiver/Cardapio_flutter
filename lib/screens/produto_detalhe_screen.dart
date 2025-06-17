@@ -35,17 +35,20 @@ class _ProdutoDetalheScreenState extends State<ProdutoDetalheScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.produto.nome)),
+      appBar: AppBar(
+        backgroundColor: Colors.deepOrange,
+        title: Text(widget.produto.nome),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(16),
               child: Image.asset(
                 widget.produto.imagem,
-                height: 200,
+                height: 220,
                 width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (_, __, ___) => const Icon(Icons.image_not_supported, size: 100),
@@ -57,74 +60,81 @@ class _ProdutoDetalheScreenState extends State<ProdutoDetalheScreen> {
               style: const TextStyle(fontSize: 16, color: Colors.black87),
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Adicionais:',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-            const SizedBox(height: 12),
-            ...adicionaisDisponiveis.map((adicional) {
-              final qtd = adicionaisSelecionados[adicional] ?? 0;
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 6),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+            if (adicionaisDisponiveis.isNotEmpty) ...[
+              const Text(
+                'Adicionais:',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              const SizedBox(height: 12),
+              ...adicionaisDisponiveis.map((adicional) {
+                final qtd = adicionaisSelecionados[adicional] ?? 0;
+                return Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  margin: const EdgeInsets.symmetric(vertical: 6),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(adicional.nome,
+                                  style: const TextStyle(fontWeight: FontWeight.w600)),
+                              const SizedBox(height: 2),
+                              Text('R\$ ${adicional.preco.toStringAsFixed(2)}',
+                                  style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                            ],
+                          ),
+                        ),
+                        Row(
                           children: [
-                            Text(adicional.nome,
-                                style: const TextStyle(fontWeight: FontWeight.w600)),
-                            const SizedBox(height: 2),
-                            Text('R\$ ${adicional.preco.toStringAsFixed(2)}',
-                                style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                            IconButton(
+                              icon: const Icon(Icons.remove_circle_outline),
+                              onPressed: qtd == 0
+                                  ? null
+                                  : () {
+                                      setState(() {
+                                        adicionaisSelecionados[adicional] = qtd - 1;
+                                        if (adicionaisSelecionados[adicional] == 0) {
+                                          adicionaisSelecionados.remove(adicional);
+                                        }
+                                        _atualizarTotal();
+                                      });
+                                    },
+                            ),
+                            Text('$qtd', style: const TextStyle(fontSize: 16)),
+                            IconButton(
+                              icon: const Icon(Icons.add_circle_outline),
+                              onPressed: () {
+                                setState(() {
+                                  adicionaisSelecionados[adicional] = qtd + 1;
+                                  _atualizarTotal();
+                                });
+                              },
+                            ),
                           ],
                         ),
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.remove_circle_outline),
-                            onPressed: qtd == 0
-                                ? null
-                                : () {
-                                    setState(() {
-                                      adicionaisSelecionados[adicional] = qtd - 1;
-                                      if (adicionaisSelecionados[adicional] == 0) {
-                                        adicionaisSelecionados.remove(adicional);
-                                      }
-                                      _atualizarTotal();
-                                    });
-                                  },
-                          ),
-                          Text('$qtd', style: const TextStyle(fontSize: 16)),
-                          IconButton(
-                            icon: const Icon(Icons.add_circle_outline),
-                            onPressed: () {
-                              setState(() {
-                                adicionaisSelecionados[adicional] = qtd + 1;
-                                _atualizarTotal();
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              );
-            }),
-            const SizedBox(height: 28),
+                );
+              }),
+              const SizedBox(height: 28),
+            ],
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
+              child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  backgroundColor: Colors.redAccent,
+                  backgroundColor: Colors.deepOrange,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
+                icon: const Icon(Icons.add_shopping_cart, color: Colors.white),
                 onPressed: () {
                   final extras = [
                     for (final entry in adicionaisSelecionados.entries)
@@ -149,7 +159,7 @@ class _ProdutoDetalheScreenState extends State<ProdutoDetalheScreen> {
                     ),
                   );
                 },
-                child: Text(
+                label: Text(
                   'Adicionar ao Pedido – R\$ ${total.toStringAsFixed(2)}',
                   style: const TextStyle(fontSize: 16, color: Colors.white),
                 ),
