@@ -5,7 +5,7 @@ class Produto {
   final double preco;
   final String imagem;
   final List<Adicional> adicionais;
-  final String categoria; // <-- Adicionado
+  final String categoria; 
 
   Produto({
     required this.id,
@@ -14,7 +14,7 @@ class Produto {
     required this.preco,
     required this.imagem,
     required this.adicionais,
-    required this.categoria, // <-- Adicionado
+    required this.categoria, 
   });
 }
 
