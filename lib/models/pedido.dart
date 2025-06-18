@@ -4,7 +4,7 @@ class Pedido {
   final int id;
   final DateTime dataHora;
   final List<ItemCarrinho> itens;
-  String status; // <- precisa ser mutável
+  String status;
 
   Pedido({
     required this.id,
